@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from "react-router-dom"
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectedProduct } from '../redux/actions/productActions';
+import { selectedProduct, remveSelectedProduct } from '../redux/actions/productActions';
 
 export default function ProductDitail() {
     const product = useSelector(state => state.product)
@@ -18,7 +18,13 @@ export default function ProductDitail() {
     };
     useEffect(() => {
         if (productID && productID !== "") fetchProductDetail()
-    }, [productID])
+        return () => {
+            dispatch(remveSelectedProduct())
+        }
+    }, [productID]);
+
+    
+
     return (
         <section className="text-gray-600 body-font overflow-hidden">
             <div className="container px-5 py-24 mx-auto">
@@ -30,14 +36,6 @@ export default function ProductDitail() {
                             <p className="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Description</p>
                         </div>
                         <p className="leading-relaxed mb-4">{description}</p>
-                        {/* <div className="flex border-t border-gray-200 py-2">
-                            <span className="text-gray-500">Color</span>
-                            <span className="ml-auto text-gray-900">Blue</span>
-                        </div>
-                        <div className="flex border-t border-gray-200 py-2">
-                            <span className="text-gray-500">Size</span>
-                            <span className="ml-auto text-gray-900">Medium</span>
-                        </div> */}
                         <div className="flex border-t border-b mb-6 border-gray-200 py-2">
                             <span className="text-gray-500">Category</span>
                             <span className="ml-auto text-gray-900">{category}</span>
